@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hangman Game</title>
+    <style>
+        body { 
+             font-family: Arial, sans-serif;
+             background: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        #word{
+            font-size: 2rem;
+            letter-spacing: 10px;
+            margin: 20px 0 
+        
+        }
+        #letter button{
+            margin: 5px;
+            padding:20px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: blueviolet;
+            color: #f4f4f4;
+            border: none;
+            border-radius: 100px;
+        }
+        #massage{
+            font-size:1.5rem;
+            color: Green;
+        }
+        #wrong{
+            color: red ;
+        }
+        p {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hangman Game</h1>
+    <div id="word">_ _ _ _ _</div>
+    <div id="letter"></div>
+    <p >Letter guesses = <span id="wrong"></span></p>
+    <p id="massage"></p>
+
+    <script>
+        const words = ["javascript", "python", "java", "html", "css"]; // menyimpan daftar kata apa saja yang akan digunakan dalam permainan 
+        const selectedWord = words[Math.floor(Math.random() * words.length)];
+        let guessed = [];
+        let wrong =[];
+
+        const wordEl = document.getElementById("word")
+        const LetterEl = document.getElementById("letter")
+        const wrongEl = document.getElementById("wrong")
+        const massageEl = document.getElementById("massage")
+        
+        function updateWord(){
+            wordEl.innerHTML = selectedWord
+            .split("")
+            .map(letter =>(guessed.includes(letter) ? letter:"_"))
+            .join(" ");
+        }
+
+        function showLetters(){
+            const alphabets = "abcdefghijklmnopqrstuvwxyz";
+            LetterEl.innerHTML ="";
+            alphabets.split("").forEach(letter => {
+                const btn = document.createElement("button");
+                btn.innerText = letter;
+                btn.disabled = guessed.includes(letter) || wrong.includes(letter);
+                btn.onclick = () => guess(letter);
+                LetterEl.appendChild(btn);
+            });
+        }
+
+        function guess(letter) {
+        if (selectedWord.includes(letter)) {
+            guessed.push(letter);
+        } 
+        else {
+            if (!wrong.includes(letter)) {
+            wrong.push(letter);
+        }
+      }
+      updateWord();
+      showLetters();
+      wrongEl.textContent = wrong.join(", ");
+
+      checkWinOrLose();
+    }
+
+    function checkWinOrLose() {
+      const currentWord = selectedWord.split("").map(letter => (guessed.includes(letter) ? letter : "_")).join("");
+      
+      if (currentWord === selectedWord) {
+        massageEl.textContent = "You Win! 🎉";
+        LetterEl.innerHTML = "";
+      } else if (wrong.length >= 6) {
+        massageEl.textContent = `You Lose! The word was: ${selectedWord}`;
+        lettersEl.innerHTML = "";
+      }
+    }
+
+    // Start game
+    updateWord();
+    showLetters();
+    </script>
+</body>
+</html>
