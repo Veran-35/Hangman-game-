@@ -30,7 +30,7 @@
         #letter button:disable{
             background-color : gray;
             cursor: not-allowed;
-        #massage{
+        #message{
             font-size:1.5rem;
             color: Green;
         }
@@ -47,7 +47,7 @@
     <div id="word">_ _ _ _ _</div>
     <div id="letter"></div>
     <p >Letter guesses = <span id="wrong"></span></p>
-    <p id="massage"></p>
+    <p id="message"></p>
 
     <script>
         const words = ["javascript", "python", "java", "html", "css"]; // menyimpan daftar kata apa saja yang akan digunakan dalam permainan 
@@ -58,7 +58,7 @@
         const wordEl = document.getElementById("word")
         const LetterEl = document.getElementById("letter")
         const wrongEl = document.getElementById("wrong")
-        const massageEl = document.getElementById("massage")
+        const massageEl = document.getElementById("message")
         
         function updateWord(){
             wordEl.innerHTML = selectedWord
@@ -103,7 +103,7 @@
         LetterEl.innerHTML = "";
       } else if (wrong.length >= 6) {
         massageEl.textContent = `You Lose! The word was: ${selectedWord}`;
-        lettersEl.innerHTML = "";
+        letterEl.innerHTML = "";
       }
     }
 
